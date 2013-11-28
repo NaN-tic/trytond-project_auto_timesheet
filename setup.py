@@ -30,7 +30,7 @@ for dep in info.get('depends', []):
 requires.append('trytond >= %s.%s, < %s.%s' %
         (major_version, minor_version, major_version, minor_version + 1))
 
-setup(name='trytond_nantic_project',
+setup(name='trytond_project_auto_timesheet',
     version=info.get('version', '0.0.1'),
     description='Tryton module for managing projects and tasks at NaN·tic',
     long_description=read('README'),
@@ -38,13 +38,13 @@ setup(name='trytond_nantic_project',
     url='http://www.tryton.org/',
     download_url="http://downloads.tryton.org/" + \
         info.get('version', '0.0.1').rsplit('.', 1)[0] + '/',
-    package_dir={'trytond.modules.nantic_project': '.'},
+    package_dir={'trytond.modules.project_auto_timesheet': '.'},
     packages=[
-        'trytond.modules.nantic_project',
-        'trytond.modules.nantic_project.tests',
+        'trytond.modules.project_auto_timesheet',
+        'trytond.modules.project_auto_timesheet.tests',
         ],
     package_data={
-        'trytond.modules.nantic_project': info.get('xml', []) \
+        'trytond.modules.project_auto_timesheet': info.get('xml', []) \
             + ['tryton.cfg', 'locale/*.po', 'header_A4.odt', 'letter.odt'],
         },
     classifiers=[
@@ -75,7 +75,7 @@ setup(name='trytond_nantic_project',
     zip_safe=False,
     entry_points="""
     [trytond.modules]
-    nantic_project = trytond.modules.nantic_project
+    project_auto_timesheet = trytond.modules.project_auto_timesheet
     """,
     test_suite='tests',
     test_loader='trytond.test_loader:Loader',

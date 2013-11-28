@@ -13,7 +13,7 @@ Prerequisites
 Installation
 ------------
 
-Once you've downloaded and unpacked the nantic_project source release, 
+Once you've downloaded and unpacked the project_auto_timesheet source release, 
 enter the directory where the archive was unpacked, and run:
 
     python setup.py install
