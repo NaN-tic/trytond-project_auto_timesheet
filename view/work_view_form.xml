@@ -7,6 +7,6 @@ this repository contains the full copyright notices and license terms. -->
         <label name="timesheet_work_name"/>
     </xpath>
     <xpath expr="/form/field[@name='work']" position="replace">
-        <field name="timesheet_work_name"/>
+        <field name="timesheet_work_name" colspan="3"/>
     </xpath>
 </data>
