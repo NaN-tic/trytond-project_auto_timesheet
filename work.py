@@ -3,43 +3,27 @@
 from trytond.model import ModelView, ModelSQL, fields
 from trytond.pool import Pool, PoolMeta
 
-
 __all__ = ['Work']
 __metaclass__ = PoolMeta
 
 
-class Work(ModelSQL, ModelView):
+class Work:
     __name__ = 'project.work'
 
-    timesheet_work_name = fields.Char('Work', required=True)
+    timesheet_work_name = fields.Function(fields.Char('Name', required=True),
+        'get_timesheet_work_name', searcher='search_timesheet_work_name',
+        setter='set_timesheet_work_name')
+
+    def get_timesheet_work_name(self, name):
+        return self.work.name
 
     @classmethod
-    def create(cls, vlist):
-        Timesheet_work = Pool().get('timesheet.work')
-        for vl in vlist:
-            timesheet_work = Timesheet_work.create(
-                [{'name': vl['timesheet_work_name']}])
-            vl['work'] = timesheet_work[0].id
-        return super(Work, cls).create(vlist)
+    def search_timesheet_work_name(cls, name, clause):
+        return [('work.name',) + tuple(clause[1:])]
 
     @classmethod
-    def __setup__(cls):
-        super(Work, cls).__setup__()
-        cls._error_messages.update({
-                'to_many_duplicates': ('For this type of model you can only '
-                    'duplicate one by one.'),
+    def set_timesheet_work_name(cls, works, name, value):
+        Work = Pool().get('timesheet.work')
+        Work.write([p.work for p in works], {
+                'name': value,
                 })
-
-    @classmethod
-    def copy(cls, records, default=None):
-        if default is None:
-            default = {}
-        default = default.copy()
-        if len(records) > 1:
-            cls.raise_user_error('to_many_duplicates')
-        default.setdefault('work', None)
-        default.setdefault('timesheet_work_name',
-            "%s (copy)" % records[0].timesheet_work_name)
-        default.setdefault('product', records[0].product)
-        default.setdefault('party', records[0].party)
-        return super(Work, cls).copy(records, default=default)
