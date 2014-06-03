@@ -1,14 +1,6 @@
 #!/usr/bin/env python
-#This file is part of Tryton.  The COPYRIGHT file at the top level of
-#this repository contains the full copyright notices and license terms.
-
-import sys
-import os
-DIR = os.path.abspath(os.path.normpath(os.path.join(__file__,
-    '..', '..', '..', '..', '..', 'trytond')))
-if os.path.isdir(DIR):
-    sys.path.insert(0, os.path.dirname(DIR))
-
+#The COPYRIGHT file at the top level of this repository contains the full
+#copyright notices and license terms.
 import unittest
 import trytond.tests.test_tryton
 from trytond.tests.test_tryton import test_view, test_depends
@@ -33,20 +25,17 @@ class ProjectAutoTimesheetTestCase(unittest.TestCase):
         'Test depends'
         test_depends()
 
-    def test0010company_setup(self):
-        CONTEXT.update(company=1)
-        with Transaction().start(DB_NAME, USER,
-                context=CONTEXT) as transaction:
-            company, = self.company.search([('rec_name', '=', 'B2CK')])
+    def test0010project(self):
+        with Transaction().start(DB_NAME, USER, context=CONTEXT):
+            company, = self.company.search([
+                    ('rec_name', '=', 'Dunder Mifflin'),
+                    ])
             self.user.write([self.user(USER)], {
                     'main_company': company.id,
                     'company': company.id,
                     })
-            CONTEXT.update(self.user.get_preferences(context_only=True))
-
-    def test0020project(self):
-        with Transaction().start(DB_NAME, USER,
-                context=CONTEXT) as transaction:
+            new_context = self.user.get_preferences(context_only=True)
+        with Transaction().start(DB_NAME, USER, context=new_context):
             pwork1 = self.project_work(timesheet_work_name='test1')
             pwork1.save()
             self.assertEqual(pwork1.work.name, 'test1')
