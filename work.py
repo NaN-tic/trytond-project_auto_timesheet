@@ -18,7 +18,7 @@ class Work:
         to_create = []
         to_values = []
         for values in vlist:
-            if 'work' not in values:
+            if 'work' not in values or values['work'] is None:
                 to_create.append({
                         'name': values.get('name'),
                         })
