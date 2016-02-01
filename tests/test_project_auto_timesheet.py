@@ -49,6 +49,10 @@ class ProjectAutoTimesheetTestCase(ModuleTestCase):
             self.assertEqual(npwork2.work.name, 'test2')
             self.assertEqual(npwork2.name, 'test2')
             self.assertNotEqual(npwork2.work, pwork2.work)
+            pwork3 = self.project_work(name='test3', work=None)
+            pwork3.save()
+            self.assertEqual(pwork3.work.name, 'test3')
+            self.assertEqual(pwork3.name, 'test3')
 
 
 def suite():
