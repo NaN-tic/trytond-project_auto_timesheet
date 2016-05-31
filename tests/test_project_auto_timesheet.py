@@ -1,7 +1,6 @@
 #!/usr/bin/env python
-#The COPYRIGHT file at the top level of this repository contains the full
-#copyright notices and license terms.
-import doctest
+# The COPYRIGHT file at the top level of this repository contains the full
+# copyright notices and license terms.
 import unittest
 import trytond.tests.test_tryton
 from trytond.tests.test_tryton import ModuleTestCase, with_transaction
@@ -44,14 +43,13 @@ class ProjectAutoTimesheetTestCase(ModuleTestCase):
             pwork3.save()
             self.assertEqual(pwork3.work.name, 'test3')
             self.assertEqual(pwork3.name, 'test3')
+            pwork3.name = 'test3333'
+            pwork3.save()
+            self.assertEqual(pwork3.work.name, 'test3333')
 
 
 def suite():
     suite = trytond.tests.test_tryton.suite()
-    from trytond.modules.company.tests import test_company
-    for test in test_company.suite():
-        if test not in suite:
-            suite.addTest(test)
     suite.addTests(unittest.TestLoader().loadTestsFromTestCase(
             ProjectAutoTimesheetTestCase))
     return suite
